@@ -1,10 +1,21 @@
 #! /usr/bin/env python
 import subprocess
+import sys
 
-def default(context):
+def doMinify():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "crimp"])
+    subprocess.check_call([
+        sys.executable, "-m", "crimp", 'src/jSignature.js',
+        pluginsfolder + 'jSignature.UndoButton.js',
+        pluginsfolder + 'jSignature.CompressorBase30.js',
+        pluginsfolder + 'jSignature.CompressorSVG.js'
+    ]) # crimp project.js -O project.min.js -s project.min.map    
+
+def default(context):        
     minifyfiles(context)
 
 def minifyfiles(context):
+    minified = distfolder + src.name - '.js' + '.min.js'
     src = context.Node('src/jSignature.js')
 
     distfolder = context.Node('libs/')
@@ -111,4 +122,4 @@ def compress_with_closure_compiler(code, compression_level = None):
     return parts['compiledCode']
 
 if __name__ == '__main__':
-    print("This is a Wak build automation tool script. Please, get Wak on GitHub and run it against the folder containing this automation script.")
+    print("This is a Wak build automation tool script. Please, get Wak on GitHub and run it against the folder containing this automation script.")
